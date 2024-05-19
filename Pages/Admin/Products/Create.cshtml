@@ -1,0 +1,49 @@
+﻿@page
+@model Store.Pages.Admin.Products.CreateModel
+
+<h2 class="text-center mb-5">Create New Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="ProductType">Product Type:</label>
+        <select class="form-control custom-select" id="ProductType" asp-for="ProductType">
+            <option class="btn btn-outline-primary flex-shrink-0" value="CPU">CPU</option>
+            <option class="btn btn-outline-primary flex-shrink-0" value="GPU">GPU</option>
+            <option class="btn btn-outline-primary flex-shrink-0" value="Ram">Ram</option>
+            <option class="btn btn-outline-primary flex-shrink-0" value="Display">Display</option>
+            <option class="btn btn-outline-primary flex-shrink-0" value="PowerSupply">PowerSupply</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Name">Product Name:</label>
+        <input type="text" class="form-control" id="Name" name="Name" id="nameInput">
+    </div>
+
+    <div class="form-group">
+        <label for="Brand">Product Brand:</label>
+        <input type="text" class="form-control" id="Brand" name="Brand" id="brandInput">
+    </div>
+
+    <div class="form-group">
+        <label for="Price">Product Price:</label>
+        <input type="number" class="form-control" id="Price" name="Price" id="priceInput">
+    </div>
+
+    <div class="form-group">
+        <label for="StockCount">Product Stock:</label>
+        <input type="number" class="form-control" id="StockCount" name="StockCount" id="stockCountInput">
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Product Description:</label>
+        <textarea class="form-control" id="Description" name="Description" id="descriptionInput"></textarea>
+    </div>
+
+    <div class="form-group" id="imageUpload">
+        <label>Upload Image</label>
+        <input type="file" asp-for="ImageFile" required>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary flex-shrink-0">Create</button>
+</form>
+

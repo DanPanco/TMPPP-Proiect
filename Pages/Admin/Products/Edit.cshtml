@@ -1,0 +1,55 @@
+﻿@page
+@model Store.Pages.Admin.Products.EditModel
+
+<h2 class="text-center mb-5">Edit Product</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Product.Id" />
+    <div class="form-group">
+        <label asp-for="Product.ProductType"></label>
+        <select class="form-control" asp-for="Product.ProductType">
+            <option value="Mouse">Mouse</option>
+            <option value="Headset">Headset</option>
+            <option value="Keyboard">Keyboard</option>
+            <option value="CPU">CPU</option>
+            <option value="GPU">GPU</option>
+            <option value="RAM">RAM</option>
+            <option value="Display">Display</option>
+            <option value="PowerSupply">PowerSupply</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.Name"></label>
+        <input class="form-control" asp-for="Product.Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.Brand"></label>
+        <input class="form-control" asp-for="Product.Brand" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.Price"></label>
+        <input class="form-control" asp-for="Product.Price" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.StockCount"></label>
+        <input class="form-control" asp-for="Product.StockCount" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.Description"></label>
+        <textarea class="form-control" asp-for="Product.Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Current Image</label>
+        <img src="~/products/@Model.Product.ImageFileName" alt="Product Image" style="width: 100px; height: auto;" />
+    </div>
+    <div class="form-group">
+        <label>Upload New Image</label>
+        <input type="file" asp-for="ImageFile" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Product.CreatedAt"></label>
+        <input class="form-control" asp-for="Product.CreatedAt" readonly />
+    </div>
+    <button type="submit" class="btn btn-outline-primary flex-shrink-0">Save</button>
+    <a href="./Index">Back to List</a>
+</form>

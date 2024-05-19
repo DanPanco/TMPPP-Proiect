@@ -1,0 +1,145 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Store.Models
+@model Store.Pages.Admin.Products.IndexModel
+@{
+}
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<h2 class="text-center mb-5">List of Products</h2>
+
+<div class="d-flex justify-content-start align-items-center">
+    <label for="sortStrategy" class="mr-2">Sort by:</label>
+    <select id="sortStrategy" onchange="location = this.value;" class="form-control">
+        <option value="">Select...</option>
+        <option value="?sortStrategy=stockcountAscending">Stock Count (Ascending)</option>
+        <option value="?sortStrategy=stockcountDescending">Stock Count (Descending)</option>
+        <option value="?sortStrategy=priceAscending">Price (Ascending)</option>
+        <option value="?sortStrategy=priceDescending">Price (Descending)</option>
+    </select>
+</div>
+
+@{
+    var message = TempData["Message"] as string;
+    if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-warning">
+            @message
+        </div>
+    }
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("admin"))
+    {
+        <div class="row mb-5">
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group text-center">
+                    <select class="form-control custom-select" id="ProductType" asp-for="ProductType">
+                        <option class="btn btn-outline-primary flex-shrink-0" value="Mouse">Mouse</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="Headset">Headset</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="Keyboard">Keyboard</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="CPU">CPU</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="GPU">GPU</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="RAM">RAM</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="Display">Display</option>
+                        <option class="btn btn-outline-primary flex-shrink-0" value="PowerSupply">PowerSupply</option>
+                    </select>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary flex-shrink-0 align-self-center">Create</button>
+                </div>
+            </form>
+
+            <div class="col">
+            </div>
+        </div>
+
+        @foreach (var product in Model.Products)
+        {
+            <section class="py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-6">
+                            <img class="card-img-top mb-5 mb-md-0" src="/products/@product.ImageFileName" alt="@product.Name" />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="small mb-1">ID: @product.Id</div>
+                            <h1 class="display-5 fw-bolder">@product.Name</h1>
+                            <div class="fs-5 mb-5">
+                                <span>@(product.Price)$</span>
+                            </div>
+                            <p class="lead">@product.Description</p>
+                            <p><strong>Brand:</strong> @product.Brand</p>
+                            <p><strong>Stock:</strong> @product.StockCount</p>
+                            <p><strong>Created At:</strong> @product.CreatedAt.ToString("MM/dd/yyyy")</p>
+
+                            <a class="btn btn-outline-dark flex-shrink-0" href="/Admin/Products/Edit?id=@product.Id">Edit</a>
+                            <a class="btn btn-outline-danger flex-shrink-0" href="/Admin/Products/Delete?id=@product.Id">Delete</a>
+                            <form method="post" asp-page-handler="Clone" style="display:inline;">
+                                <input type="hidden" asp-for="@product.Id" name="id" />
+                                <button type="submit" class="btn btn-outline-success flex-shrink-0">Clone</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+    else if (User.IsInRole("user"))
+    {
+        @foreach (var product in Model.Products)
+        {
+            <section class="py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="row gx-4 gx-lg-5 align-items-center">
+                        <div class="col-md-6">
+                            <img class="card-img-top mb-5 mb-md-0" src="/products/@product.ImageFileName" alt="@product.Name" />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="small mb-1">ID: @product.Id</div>
+                            <h1 class="display-5 fw-bolder">@product.Name</h1>
+                            <div class="fs-5 mb-5">
+                                <span>@(product.Price)$</span>
+                            </div>
+                            <p class="lead">@product.Description</p>
+                            <p><strong>Brand:</strong> @product.Brand</p>
+                            <p><strong>Stock:</strong> @product.StockCount</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+}
+else
+{
+    @foreach (var product in Model.Products)
+    {
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" src="/products/@product.ImageFileName" alt="@product.Name" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">ID: @product.Id</div>
+                        <h1 class="display-5 fw-bolder">@product.Name</h1>
+                        <div class="fs-5 mb-5">
+                            <span>@(product.Price)$</span>
+                        </div>
+                        <p class="lead">@product.Description</p>
+                        <p><strong>Brand:</strong> @product.Brand</p>
+                        <p><strong>Stock:</strong> @product.StockCount</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+
